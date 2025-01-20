@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: url('4570104.jpg') no-repeat center center/cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-container {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-container label {
+            color: #fff;
+        }
+
+        .form-container .btn {
+            background-color: #fff;
+            color: #6a11cb;
+            font-weight: bold;
+        }
+
+        .form-container .btn:hover {
+            background-color: #f8f9fa;
+            color: #2575fc;
+        }
+
+        .form-container a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .form-container a:hover {
+            color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container w-100" style="max-width: 400px;">
+        <h2 class="text-center">Sign In</h2>
+        <form action="#" method="POST">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign In</button>
+        </form>
+        <p class="mt-4 text-center">
+            Don't have an account? <a href="../Sign up/signup.html">Sign Up</a>
+        </p>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelector('form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+    
+            try {
+                console.log('Attempting login with:', { email }); // Debug log
+    
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password }),
+                    credentials: 'include'
+                });
+    
+                console.log('Response status:', response.status); // Debug log
+                const data = await response.json();
+                console.log('Response data:', data); // Debug log
+    
+                if (response.ok) {
+                    alert('Sign-in successful!');
+                    window.location.href = '../Dashboard/dashboard.html';
+                } else {
+                    alert(data.message || 'Login failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Detailed login error:', error); // More detailed error
+                alert('An error occurred during login. Check console for details.');
+            }
+        });
+    </script>
+    
+</body>
+
+</html>
